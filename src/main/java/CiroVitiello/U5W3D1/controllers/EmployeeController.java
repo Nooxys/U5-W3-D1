@@ -29,7 +29,7 @@ public class EmployeeController {
 
     @GetMapping
     @PreAuthorize("hasAuthority('ADMIN')")
-    private Page<Employee> getAllEmployees(@RequestParam(defaultValue = "0") int page,
+    public Page<Employee> getAllEmployees(@RequestParam(defaultValue = "0") int page,
                                            @RequestParam(defaultValue = "10") int size,
                                            @RequestParam(defaultValue = "id") String sortBy) {
         return this.es.getEmployees(page, size, sortBy);
@@ -55,14 +55,14 @@ public class EmployeeController {
     }
 
     @GetMapping("/{employeeId}")
-    private Employee findEmployeeById(@PathVariable long employeeId) {
+    public Employee findEmployeeById(@PathVariable long employeeId) {
         return es.findById(employeeId);
 
     }
 
     @PutMapping("/{employeeId}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    private Employee findEmployeeByIdAndUpdate(@PathVariable long employeeId, @RequestBody  @Validated  NewEmployeeDTO body, BindingResult validation) {
+    public Employee findEmployeeByIdAndUpdate(@PathVariable long employeeId, @RequestBody  @Validated  NewEmployeeDTO body, BindingResult validation) {
         if (validation.hasErrors()) {
             throw new BadRequestException(validation.getAllErrors());
         }
@@ -72,7 +72,7 @@ public class EmployeeController {
     @DeleteMapping("/{employeeId}")
     @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    private void findEmployeeByIdAndDelete(@PathVariable long employeeId) {
+    public void findEmployeeByIdAndDelete(@PathVariable long employeeId) {
         es.findByIdAndDelete(employeeId);
     }
 
