@@ -3,6 +3,7 @@ package CiroVitiello.U5W3D1.exceptions;
 
 import CiroVitiello.U5W3D1.dto.ErrorsDTO;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -43,6 +44,12 @@ public class ExceptionsHandler {
     public ErrorsDTO handleBadRequest(Exception ex) {
         ex.printStackTrace();
         return new ErrorsDTO("Internal error! Please wait until it's fixed!", LocalDateTime.now());
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN) // 403
+    public ErrorsDTO handleForbidden(AccessDeniedException ex){
+        return new ErrorsDTO("You do not have access to this feature!", LocalDateTime.now());
     }
 
 

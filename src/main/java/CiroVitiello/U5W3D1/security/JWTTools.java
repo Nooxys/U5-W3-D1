@@ -31,6 +31,13 @@ public void verifyToken(String token){
     } catch (Exception ex){
         throw new UnauthorizedException("Problems with token! Please login again!");
     }
+
+
 }
+    public String extractIdFromToken(String token){
+        return Jwts.parser()
+                .verifyWith(Keys.hmacShaKeyFor(secret.getBytes()))
+                .build().parseSignedClaims(token).getPayload().getSubject();
+    }
 
 }
